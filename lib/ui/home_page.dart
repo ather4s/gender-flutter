@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import './contact_page.dart';
 import '../helpers/contact_helper.dart';
@@ -30,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Contatos"),
-        backgroundColor: Colors.red.shade400,
+        backgroundColor: Colors.pink,
         centerTitle: true,
         actions: <Widget>[
           PopupMenuButton<OrderOptions>(
@@ -54,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           _showContactPage();
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.red.shade400,
+        backgroundColor: Colors.pink,
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(10.0),
@@ -133,86 +132,89 @@ class _HomePageState extends State<HomePage> {
                       child: FlatButton(
                         child: Text(
                           "Ligar",
-                          style: TextStyle(color: Colors.red, fontSize: 16.0),
+                          style: TextStyle(color: Colors.pink[100], fontSize: 16.0),
                         ),
                         onPressed: () {
                           launch("tel:${contacts[index].phone}");
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: FlatButton(
-                        child: Text(
-                          "Editar",
-                          style: TextStyle(color: Colors.red, fontSize: 16.0),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _showContactPage(contact: contacts[index]);
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: FlatButton(
-                        child: Text(
-                          "Excluir",
-                          style: TextStyle(color: Colors.red, fontSize: 16.0),
-                        ),
-                        onPressed: () {
-                          helper.deleteContact(contacts[index].id);
-                          setState(() {
-                            contacts.removeAt(index);
-                            Navigator.pop(context);
-                          });
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
-          );
-        });
-  }
-
-  void _showContactPage({Contact contact}) async {
-    final recContact = await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ContactPage(contact: contact)));
-    if (recContact != null) {
-      if (contact != null) {
-        await helper.updateContact(recContact);
-      } else {
-        await helper.saveContact(recContact);
-      }
-      _getAllContacts();
-    }
-  }
-
-  void _getAllContacts() {
-    helper.getAllContacts().then((list) {
-      setState(() {
-        contacts = list;
-      });
-    });
-  }
-
-  void _orderList(OrderOptions result) {
-    switch (result) {
-      case OrderOptions.orderaz:
-        contacts.sort((a, b) {
-          return a.name.toLowerCase().compareTo(b.name.toLowerCase());
-        });
-        break;
-      case OrderOptions.orderza:
-        contacts.sort((a, b) {
-          return b.name.toLowerCase().compareTo(a.name.toLowerCase());
-        });
-        break;
-      default:
-    }
-    setState(() {});
-  }
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(10.0),
+                                                child: FlatButton(
+                                                  child: Text(
+                                                    "Editar",
+                                                    style: TextStyle(color: Colors.pink[100], fontSize: 16.0),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                    _showContactPage(contact: contacts[index]);
+                                                  },
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(10.0),
+                                                child: FlatButton(
+                                                  child: Text(
+                                                    "Excluir",
+                                                    style: TextStyle(color: Colors.pink[100], fontSize: 16.0),
+                                                  ),
+                                                  onPressed: () {
+                                                    helper.deleteContact(contacts[index].id);
+                                                    setState(() {
+                                                      contacts.removeAt(index);
+                                                      Navigator.pop(context);
+                                                    });
+                                                  },
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  });
+                            }
+                          
+                            void _showContactPage({Contact contact}) async {
+                              final recContact = await Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => ContactPage(contact: contact)));
+                              if (recContact != null) {
+                                if (contact != null) {
+                                  await helper.updateContact(recContact);
+                                } else {
+                                  await helper.saveContact(recContact);
+                                }
+                                _getAllContacts();
+                              }
+                            }
+                          
+                            void _getAllContacts() {
+                              helper.getAllContacts().then((list) {
+                                setState(() {
+                                  contacts = list;
+                                });
+                              });
+                            }
+                          
+                            void _orderList(OrderOptions result) {
+                              switch (result) {
+                                case OrderOptions.orderaz:
+                                  contacts.sort((a, b) {
+                                    return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+                                  });
+                                  break;
+                                case OrderOptions.orderza:
+                                  contacts.sort((a, b) {
+                                    return b.name.toLowerCase().compareTo(a.name.toLowerCase());
+                                  });
+                                  break;
+                                default:
+                              }
+                              setState(() {});
+                            }
+                          }
+                          
+                          void launch(String s) {
 }

@@ -44,7 +44,7 @@ class _ContactPageState extends State<ContactPage> {
       onWillPop: _requestPop,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red.shade400,
+          backgroundColor: Colors.pink[100],
           title: Text(_editedContact.name ?? "Novo Contato"),
           centerTitle: true,
         ),
@@ -57,7 +57,7 @@ class _ContactPageState extends State<ContactPage> {
             }
           },
           child: Icon(Icons.save),
-          backgroundColor: Colors.red.shade400,
+          backgroundColor: Colors.pink[100],
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(10.0),
@@ -76,6 +76,7 @@ class _ContactPageState extends State<ContactPage> {
                           fit: BoxFit.cover)),
                 ),
                 onTap: () {
+                  // ignore: deprecated_member_use
                   ImagePicker.pickImage(source: ImageSource.camera)
                       .then((file) {
                     if (file == null) return;
